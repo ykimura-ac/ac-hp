@@ -3,416 +3,670 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>木村会計事務所</title>
+  <title>木村会計事務所 | AI × 会計で、経営をもっとスマートに</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #0f2b4c;
+      --primary-light: #1a4a7a;
+      --accent: #00b4d8;
+      --accent-glow: rgba(0, 180, 216, 0.3);
+      --gradient-1: linear-gradient(135deg, #0f2b4c, #1a4a7a, #0077b6);
+      --gradient-accent: linear-gradient(135deg, #00b4d8, #0077b6);
+      --bg-dark: #0a1628;
+      --bg-light: #f0f4f8;
+      --text: #2d3748;
+      --text-light: #718096;
+      --white: #ffffff;
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
-      color: #333;
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      color: var(--text);
       line-height: 1.8;
+      overflow-x: hidden;
+      background: var(--white);
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { text-decoration: none; color: inherit; }
 
-    /* スクロールアニメーション */
-    .fade-in {
+    /* ========== アニメーション ========== */
+    .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in-left {
+    .reveal-left {
       opacity: 0;
-      transform: translateX(-40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateX(-50px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
 
-    .fade-in-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .fade-in-right {
+    .reveal-right {
       opacity: 0;
-      transform: translateX(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateX(50px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-    .fade-in-right.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .scale-in {
+    .reveal-scale {
       opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: scale(0.85);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
-    .scale-in.visible {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* ヘッダー */
+    /* ========== ヘッダー ========== */
     header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 100;
-      transition: box-shadow 0.3s;
+      width: 100%;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: all 0.4s ease;
     }
 
     header.scrolled {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      background: rgba(10, 22, 40, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 12px 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 16px 24px;
+      padding: 0 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: #1a3a5c;
-      transition: transform 0.3s;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 1px;
     }
 
-    .logo:hover {
-      transform: scale(1.05);
+    .logo span {
+      color: var(--accent);
     }
+
+    nav { display: flex; align-items: center; gap: 32px; }
 
     nav a {
-      margin-left: 24px;
-      font-size: 14px;
-      color: #555;
-      position: relative;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.5px;
       transition: color 0.3s;
+      position: relative;
     }
 
     nav a::after {
       content: "";
       position: absolute;
-      bottom: -4px;
+      bottom: -6px;
       left: 0;
       width: 0;
       height: 2px;
-      background: #2a6496;
-      transition: width 0.3s ease;
+      background: var(--accent);
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    nav a:hover {
-      color: #1a3a5c;
+    nav a:hover { color: var(--white); }
+    nav a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--gradient-accent);
+      color: var(--white) !important;
+      padding: 8px 24px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    nav a:hover::after {
-      width: 100%;
+    .nav-cta::after { display: none; }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    /* メインビジュアル */
+    /* ========== ヒーロー ========== */
     .hero {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2a6496 50%, #1a3a5c 100%);
-      background-size: 200% 200%;
-      animation: gradientShift 8s ease infinite;
-      color: #fff;
-      text-align: center;
-      padding: 120px 24px;
       position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-dark);
       overflow: hidden;
     }
 
-    .hero::before {
-      content: "";
+    .hero-canvas {
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-      animation: float 12s ease-in-out infinite;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(30px, -30px) rotate(5deg); }
-      66% { transform: translate(-20px, 20px) rotate(-3deg); }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0, 119, 182, 0.15), transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(0, 180, 216, 0.1), transparent 60%);
     }
 
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      text-align: center;
+      padding: 0 32px;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 180, 216, 0.12);
+      border: 1px solid rgba(0, 180, 216, 0.25);
+      color: var(--accent);
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 32px;
+      animation: fadeSlideUp 1s ease 0.2s both;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
     }
 
     .hero h1 {
-      font-size: 36px;
-      margin-bottom: 16px;
-      letter-spacing: 2px;
-      animation: heroFadeIn 1s ease forwards;
-      opacity: 0;
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 24px;
+      animation: fadeSlideUp 1s ease 0.4s both;
     }
 
-    .hero p {
-      font-size: 16px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: heroFadeIn 1s ease 0.3s forwards;
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent), #48cae4, #90e0ef);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero .btn {
-      opacity: 0;
-      animation: heroFadeIn 1s ease 0.6s forwards;
+    .hero-description {
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 48px;
+      line-height: 1.9;
+      animation: fadeSlideUp 1s ease 0.6s both;
     }
 
-    @keyframes heroFadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 1s ease 0.8s both;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .btn {
-      display: inline-block;
-      background: #fff;
-      color: #1a3a5c;
-      padding: 14px 40px;
-      border-radius: 4px;
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient-accent);
+      color: var(--white);
+      padding: 16px 36px;
+      border-radius: 8px;
       font-size: 15px;
-      font-weight: bold;
+      font-weight: 600;
       transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px var(--accent-glow);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--white);
+      padding: 16px 36px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(0, 180, 216, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounce 2s ease infinite;
+    }
+
+    .hero-scroll span {
+      display: block;
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .hero-scroll span::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 4px;
+      animation: scrollDot 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    @keyframes scrollDot {
+      0% { opacity: 1; top: 6px; }
+      100% { opacity: 0; top: 20px; }
+    }
+
+    /* ========== セクション共通 ========== */
+    section { padding: 120px 32px; }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .section-description {
+      font-size: 16px;
+      color: var(--text-light);
+      max-width: 600px;
+      line-height: 1.9;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-header .section-description {
+      margin: 0 auto;
+    }
+
+    /* ========== AI特徴セクション ========== */
+    .ai-features { background: var(--bg-light); }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .ai-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+      cursor: default;
+    }
+
+    .ai-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .ai-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--card-hover-shadow);
+    }
+
+    .ai-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .ai-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(0, 180, 216, 0.1), rgba(0, 119, 182, 0.08));
+    }
+
+    .ai-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .ai-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* ========== サービス ========== */
+    .services-section { background: var(--white); }
+
+    .services-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .services-text .section-label,
+    .services-text .section-title,
+    .services-text .section-description {
+      text-align: left;
+    }
+
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .service-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--bg-light);
+      border-radius: 12px;
+      transition: all 0.4s ease;
+      cursor: default;
+    }
+
+    .service-item:hover {
+      background: var(--white);
+      box-shadow: var(--card-shadow);
+      transform: translateX(8px);
+    }
+
+    .service-item-icon {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 10px;
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--white);
+    }
+
+    .service-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .service-item p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .services-visual {
+      position: relative;
+    }
+
+    .visual-card {
+      background: var(--bg-dark);
+      border-radius: 20px;
+      padding: 48px;
       position: relative;
       overflow: hidden;
     }
 
-    .btn::before {
+    .visual-card::before {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(26, 58, 92, 0.08);
-      border-radius: 50%;
-      transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
-      transform: translate(-50%, -50%);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn:hover::before {
+      top: -100px;
+      right: -100px;
       width: 300px;
       height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
     }
 
-    /* セクション共通 */
-    section {
-      padding: 80px 24px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 26px;
-      color: #1a3a5c;
-      margin-bottom: 12px;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      font-size: 14px;
-      color: #888;
-      margin-bottom: 48px;
-      letter-spacing: 3px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* 事務所紹介 */
-    .about {
-      background: #f8f9fb;
-    }
-
-    .about-content {
-      max-width: 750px;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 15px;
-      color: #555;
-    }
-
-    .features {
+    .visual-stats {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 32px;
-      margin-top: 48px;
     }
 
-    .feature {
+    .visual-stat {
       text-align: center;
-      padding: 32px 20px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-      cursor: default;
     }
 
-    .feature:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    .visual-stat-number {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
     }
 
-    .feature-icon {
-      font-size: 40px;
+    .visual-stat-number .counter {
+      display: inline;
+    }
+
+    .visual-stat-suffix {
+      font-size: 18px;
+      color: var(--accent);
+      margin-left: 2px;
+    }
+
+    .visual-stat-label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 8px;
+    }
+
+    .visual-card-bar {
+      margin-top: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .bar-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--gradient-accent);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bar-fill.animate {
+      width: 92%;
+    }
+
+    .bar-track:last-child .bar-fill.animate {
+      width: 87%;
+    }
+
+    .visual-card-bar + .visual-card-bar { margin-top: 20px; }
+
+    /* ========== AI活用フロー ========== */
+    .ai-flow { background: var(--bg-dark); color: var(--white); overflow: hidden; }
+
+    .ai-flow .section-title { color: var(--white); }
+    .ai-flow .section-description { color: rgba(255, 255, 255, 0.6); }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .flow-step {
+      text-align: center;
+      padding: 40px 24px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.5s ease;
+      position: relative;
+    }
+
+    .flow-step:hover {
+      background: rgba(0, 180, 216, 0.08);
+      border-color: rgba(0, 180, 216, 0.2);
+      transform: translateY(-6px);
+    }
+
+    .flow-step-num {
+      font-size: 48px;
+      font-weight: 900;
+      color: rgba(0, 180, 216, 0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .flow-step-icon {
+      font-size: 32px;
       margin-bottom: 16px;
       display: inline-block;
       transition: transform 0.4s ease;
     }
 
-    .feature:hover .feature-icon {
-      transform: scale(1.2) rotate(5deg);
+    .flow-step:hover .flow-step-icon {
+      transform: scale(1.2);
     }
 
-    .feature h3 {
+    .flow-step h4 {
       font-size: 16px;
-      color: #1a3a5c;
+      font-weight: 700;
       margin-bottom: 8px;
     }
 
-    .feature p {
+    .flow-step p {
       font-size: 13px;
-      color: #777;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.7;
     }
 
-    /* サービス */
-    .services-grid {
+    /* ========== アクセス ========== */
+    .access-section { background: var(--bg-light); }
+
+    .access-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .service-card {
-      border: 1px solid #e8ecf0;
-      border-radius: 12px;
-      padding: 32px;
-      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      cursor: default;
-    }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 0;
-      background: linear-gradient(180deg, #1a3a5c, #2a6496);
-      transition: height 0.4s ease;
-      border-radius: 4px 0 0 4px;
-    }
-
-    .service-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      border-color: #2a6496;
-    }
-
-    .service-card:hover::before {
-      height: 100%;
-    }
-
-    .service-card h3 {
-      font-size: 18px;
-      color: #1a3a5c;
-      margin-bottom: 8px;
-      transition: color 0.3s;
-    }
-
-    .service-card:hover h3 {
-      color: #2a6496;
-    }
-
-    .service-card p {
-      font-size: 14px;
-      color: #666;
-    }
-
-    /* 数字カウンター */
-    .stats {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2a6496 100%);
-      padding: 60px 24px;
-      color: #fff;
-    }
-
-    .stats-grid {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      text-align: center;
-    }
-
-    .stat-item {
-      padding: 16px;
-    }
-
-    .stat-number {
-      font-size: 48px;
-      font-weight: bold;
-      display: inline-block;
-    }
-
-    .stat-suffix {
-      font-size: 20px;
-      margin-left: 4px;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      opacity: 0.85;
-      margin-top: 8px;
-    }
-
-    /* アクセス */
-    .access {
-      background: #f8f9fb;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
     }
 
     .access-info {
-      max-width: 600px;
-      margin: 0 auto;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: var(--card-shadow);
     }
 
     .access-info table {
@@ -422,28 +676,139 @@
 
     .access-info th,
     .access-info td {
-      padding: 14px 16px;
+      padding: 16px 0;
       text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 15px;
-      transition: background 0.3s;
+      border-bottom: 1px solid #edf2f7;
+      font-size: 14px;
     }
 
-    .access-info tr:hover th,
-    .access-info tr:hover td {
-      background: rgba(42, 100, 150, 0.05);
+    .access-info tr:last-child th,
+    .access-info tr:last-child td {
+      border-bottom: none;
     }
 
     .access-info th {
-      width: 120px;
-      color: #1a3a5c;
-      font-weight: bold;
+      width: 100px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 13px;
     }
 
-    /* お問い合わせ */
+    .access-info td {
+      color: var(--text-light);
+    }
+
+    .access-cta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: var(--gradient-1);
+      border-radius: 16px;
+      padding: 48px;
+      color: var(--white);
+    }
+
+    .access-cta h3 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .access-cta p {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .access-cta .btn-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+
+    .access-cta .btn-primary:hover {
+      box-shadow: 0 12px 32px rgba(255, 255, 255, 0.2);
+    }
+
+    /* ========== お問い合わせ ========== */
+    .contact-section { background: var(--white); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      line-height: 1.9;
+    }
+
+    .contact-channels {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-channel {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--bg-light);
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
+
+    .contact-channel:hover {
+      transform: translateX(6px);
+    }
+
+    .contact-channel-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .contact-channel-text strong {
+      font-size: 13px;
+      color: var(--primary);
+      display: block;
+    }
+
+    .contact-channel-text span {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
     .contact-form {
-      max-width: 600px;
-      margin: 0 auto;
+      background: var(--bg-light);
+      padding: 40px;
+      border-radius: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
     .form-group {
@@ -452,50 +817,48 @@
 
     .form-group label {
       display: block;
-      font-size: 14px;
-      font-weight: bold;
-      color: #1a3a5c;
-      margin-bottom: 6px;
-      transition: color 0.3s;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
     }
 
     .form-group input,
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
       width: 100%;
-      padding: 12px 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 15px;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
       font-family: inherit;
+      background: var(--white);
       transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     .form-group input:focus,
-    .form-group textarea:focus {
+    .form-group textarea:focus,
+    .form-group select:focus {
       outline: none;
-      border-color: #2a6496;
-      box-shadow: 0 0 0 4px rgba(42, 100, 150, 0.1);
-    }
-
-    .form-group:focus-within label {
-      color: #2a6496;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-glow);
     }
 
     .form-group textarea {
-      height: 140px;
+      height: 120px;
       resize: vertical;
     }
 
     .btn-submit {
-      display: block;
       width: 100%;
-      background: linear-gradient(135deg, #1a3a5c, #2a6496);
-      color: #fff;
+      background: var(--gradient-accent);
+      color: var(--white);
       border: none;
       padding: 16px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
@@ -504,31 +867,87 @@
 
     .btn-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(26, 58, 92, 0.3);
+      box-shadow: 0 8px 24px var(--accent-glow);
     }
 
     .btn-submit:active {
       transform: translateY(0);
     }
 
-    /* トップに戻るボタン */
+    /* ========== フッター ========== */
+    footer {
+      background: var(--bg-dark);
+      padding: 64px 32px 32px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 32px;
+    }
+
+    .footer-brand .logo {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      max-width: 280px;
+      line-height: 1.7;
+    }
+
+    .footer-links { display: flex; gap: 48px; }
+
+    .footer-links-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 16px;
+    }
+
+    .footer-links-col a {
+      display: block;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+
+    .footer-links-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* ========== トップに戻る ========== */
     .back-to-top {
       position: fixed;
       bottom: 32px;
       right: 32px;
       width: 48px;
       height: 48px;
-      background: #1a3a5c;
-      color: #fff;
+      background: var(--gradient-accent);
+      color: var(--white);
       border: none;
-      border-radius: 50%;
-      font-size: 20px;
+      border-radius: 14px;
+      font-size: 18px;
       cursor: pointer;
       opacity: 0;
       visibility: hidden;
       transform: translateY(20px);
-      transition: opacity 0.4s, visibility 0.4s, transform 0.4s, background 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 16px var(--accent-glow);
       z-index: 99;
     }
 
@@ -539,293 +958,541 @@
     }
 
     .back-to-top:hover {
-      background: #2a6496;
       transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--accent-glow);
     }
 
-    /* フッター */
-    footer {
-      background: #1a3a5c;
-      color: rgba(255, 255, 255, 0.7);
-      text-align: center;
-      padding: 24px;
-      font-size: 13px;
+    /* ========== カスタムカーソル ========== */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 180, 216, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+      opacity: 0;
     }
 
-    /* スムーススクロール */
-    html {
-      scroll-behavior: smooth;
+    .cursor-glow.active { opacity: 1; }
+
+    /* ========== レスポンシブ ========== */
+    @media (max-width: 1024px) {
+      .ai-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-split { grid-template-columns: 1fr; gap: 48px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .access-grid { grid-template-columns: 1fr; }
     }
 
-    /* レスポンシブ */
     @media (max-width: 768px) {
-      .header-inner {
-        flex-direction: column;
-        gap: 12px;
-      }
+      section { padding: 80px 20px; }
+      .ai-grid { grid-template-columns: 1fr; }
+      .flow-grid { grid-template-columns: 1fr; }
+      .visual-stats { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 32px; }
+      .footer-links { gap: 32px; }
 
-      nav a {
-        margin-left: 16px;
-        font-size: 13px;
-      }
-
-      .hero {
-        padding: 80px 24px;
-      }
-
-      .hero h1 {
-        font-size: 26px;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .stat-number {
-        font-size: 36px;
-      }
-
-      section {
-        padding: 56px 20px;
-      }
+      nav { display: none; }
+      .hero { min-height: 90vh; }
+      .hero h1 { font-size: 30px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- カーソルグロー -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
   <!-- ヘッダー -->
   <header id="header">
     <div class="header-inner">
-      <div class="logo">木村会計事務所</div>
+      <div class="logo">KIMURA<span>.</span></div>
       <nav>
-        <a href="#about">事務所紹介</a>
+        <a href="#features">特徴</a>
         <a href="#services">サービス</a>
+        <a href="#flow">AI活用</a>
         <a href="#access">アクセス</a>
-        <a href="#contact">お問い合わせ</a>
+        <a href="#contact" class="nav-cta">お問い合わせ</a>
       </nav>
     </div>
   </header>
 
-  <!-- メインビジュアル -->
+  <!-- ヒーロー -->
   <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>信頼と実績の税務パートナー</h1>
-      <p>お客様の大切な事業と暮らしを、税務・会計の面からサポートいたします。</p>
-      <a href="#contact" class="btn">無料相談はこちら</a>
-    </div>
-  </section>
-
-  <!-- 事務所紹介 -->
-  <section class="about" id="about">
-    <div class="container">
-      <h2 class="section-title fade-in">事務所紹介</h2>
-      <p class="section-subtitle fade-in">About Us</p>
-      <p class="about-content fade-in">
-        木村会計事務所は、個人事業主から中小企業まで幅広いお客様の税務・会計業務をサポートしております。
-        丁寧なヒアリングと迅速な対応で、お客様一人ひとりに最適なソリューションをご提案いたします。
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        AI-Powered Accounting
+      </div>
+      <h1>AI × 会計で、<br><span class="gradient-text">経営をもっとスマートに。</span></h1>
+      <p class="hero-description">
+        木村会計事務所は、最新のAIテクノロジーと会計の専門知識を融合し、<br>
+        従来の税務・会計サービスを超えた、新しい経営パートナーシップをご提供します。
       </p>
-      <div class="features">
-        <div class="feature scale-in" style="transition-delay: 0s;">
-          <div class="feature-icon">&#x1F91D;</div>
-          <h3>丁寧な対応</h3>
-          <p>お客様のお悩みに寄り添い、わかりやすくご説明いたします。</p>
-        </div>
-        <div class="feature scale-in" style="transition-delay: 0.15s;">
-          <div class="feature-icon">&#x1F4CA;</div>
-          <h3>豊富な実績</h3>
-          <p>多業種にわたる豊富な顧問実績で、的確なアドバイスをご提供します。</p>
-        </div>
-        <div class="feature scale-in" style="transition-delay: 0.3s;">
-          <div class="feature-icon">&#x1F680;</div>
-          <h3>迅速な対応</h3>
-          <p>スピーディーな処理で、お客様の経営判断をサポートします。</p>
-        </div>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">無料相談を予約する &rarr;</a>
+        <a href="#features" class="btn-outline">サービスを見る</a>
       </div>
     </div>
+    <div class="hero-scroll"><span></span></div>
   </section>
 
-  <!-- 数字で見る実績 -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat-item fade-in">
-        <span class="stat-number" data-target="500">0</span><span class="stat-suffix">社+</span>
-        <div class="stat-label">顧問契約実績</div>
+  <!-- AI特徴 -->
+  <section class="ai-features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label reveal">Why Choose Us</span>
+        <h2 class="section-title reveal">AIが変える、会計事務所の新しい形</h2>
+        <p class="section-description reveal">テクノロジーの力で、より正確で、より速く、より深い洞察を。</p>
       </div>
-      <div class="stat-item fade-in" style="transition-delay: 0.15s;">
-        <span class="stat-number" data-target="20">0</span><span class="stat-suffix">年</span>
-        <div class="stat-label">業界経験</div>
-      </div>
-      <div class="stat-item fade-in" style="transition-delay: 0.3s;">
-        <span class="stat-number" data-target="98">0</span><span class="stat-suffix">%</span>
-        <div class="stat-label">顧客満足度</div>
+      <div class="ai-grid">
+        <div class="ai-card reveal-scale" style="transition-delay: 0s;">
+          <div class="ai-card-icon">&#x1F916;</div>
+          <h3>AI自動仕訳</h3>
+          <p>AIが取引データを自動分類・仕訳。人的ミスを削減し、記帳業務を大幅に効率化します。</p>
+        </div>
+        <div class="ai-card reveal-scale" style="transition-delay: 0.12s;">
+          <div class="ai-card-icon">&#x1F4C8;</div>
+          <h3>予測分析レポート</h3>
+          <p>過去データをAIが分析し、キャッシュフロー予測や経営トレンドをリアルタイムで可視化します。</p>
+        </div>
+        <div class="ai-card reveal-scale" style="transition-delay: 0.24s;">
+          <div class="ai-card-icon">&#x1F50D;</div>
+          <h3>AI税務リサーチ</h3>
+          <p>最新の税制改正や判例をAIが常時モニタリング。最適な節税策を迅速にご提案します。</p>
+        </div>
+        <div class="ai-card reveal-scale" style="transition-delay: 0.36s;">
+          <div class="ai-card-icon">&#x1F4AC;</div>
+          <h3>24時間AIチャット</h3>
+          <p>簡単な経理・税務の質問にはAIチャットボットが即座に回答。いつでも疑問を解決できます。</p>
+        </div>
+        <div class="ai-card reveal-scale" style="transition-delay: 0.48s;">
+          <div class="ai-card-icon">&#x1F6E1;</div>
+          <h3>異常検知アラート</h3>
+          <p>AIが不正取引や入力ミスの兆候を自動検知。リスクを未然に防ぎ、内部統制を強化します。</p>
+        </div>
+        <div class="ai-card reveal-scale" style="transition-delay: 0.6s;">
+          <div class="ai-card-icon">&#x1F91D;</div>
+          <h3>専門家 × AI</h3>
+          <p>AIの効率性と税理士の判断力を組み合わせ、高品質かつスピーディーなサービスを実現します。</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- サービス -->
-  <section id="services">
+  <section class="services-section" id="services">
     <div class="container">
-      <h2 class="section-title fade-in">サービス内容</h2>
-      <p class="section-subtitle fade-in">Services</p>
-      <div class="services-grid">
-        <div class="service-card fade-in-left" style="transition-delay: 0s;">
-          <h3>税務顧問</h3>
-          <p>月次の記帳代行から決算・申告まで、日々の税務業務をトータルでサポートいたします。</p>
+      <div class="services-split">
+        <div class="services-text">
+          <span class="section-label reveal-left">Services</span>
+          <h2 class="section-title reveal-left">AIを活用した<br>次世代の会計サービス</h2>
+          <p class="section-description reveal-left">
+            従来の税務・会計業務に加え、AIによるデータ分析と自動化で、経営の意思決定を強力にバックアップします。
+          </p>
+          <div class="service-list">
+            <div class="service-item reveal-left" style="transition-delay: 0.1s;">
+              <div class="service-item-icon">&#x1F4CB;</div>
+              <div>
+                <h4>AI税務顧問</h4>
+                <p>AI分析を活用した月次レポートと的確な税務アドバイスで経営をサポート。</p>
+              </div>
+            </div>
+            <div class="service-item reveal-left" style="transition-delay: 0.2s;">
+              <div class="service-item-icon">&#x1F4DD;</div>
+              <div>
+                <h4>確定申告・決算</h4>
+                <p>AI自動仕訳で作業時間を短縮。正確でスピーディーな申告を実現します。</p>
+              </div>
+            </div>
+            <div class="service-item reveal-left" style="transition-delay: 0.3s;">
+              <div class="service-item-icon">&#x1F3E2;</div>
+              <div>
+                <h4>会社設立・創業支援</h4>
+                <p>設立手続きから事業計画のAI分析まで、創業をワンストップで支援。</p>
+              </div>
+            </div>
+            <div class="service-item reveal-left" style="transition-delay: 0.4s;">
+              <div class="service-item-icon">&#x1F3E0;</div>
+              <div>
+                <h4>相続税・事業承継</h4>
+                <p>AIシミュレーションで最適な相続プランを策定。円滑な資産承継を実現。</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="service-card fade-in-right" style="transition-delay: 0.1s;">
-          <h3>確定申告</h3>
-          <p>個人事業主・フリーランスの方の確定申告を正確かつスムーズに対応いたします。</p>
+        <div class="services-visual reveal-right">
+          <div class="visual-card">
+            <div class="visual-stats">
+              <div class="visual-stat">
+                <div class="visual-stat-number"><span class="counter" data-target="500">0</span><span class="visual-stat-suffix">+</span></div>
+                <div class="visual-stat-label">顧問実績</div>
+              </div>
+              <div class="visual-stat">
+                <div class="visual-stat-number"><span class="counter" data-target="98">0</span><span class="visual-stat-suffix">%</span></div>
+                <div class="visual-stat-label">顧客満足度</div>
+              </div>
+              <div class="visual-stat">
+                <div class="visual-stat-number"><span class="counter" data-target="60">0</span><span class="visual-stat-suffix">%</span></div>
+                <div class="visual-stat-label">業務時間削減</div>
+              </div>
+              <div class="visual-stat">
+                <div class="visual-stat-number"><span class="counter" data-target="24">0</span><span class="visual-stat-suffix">h</span></div>
+                <div class="visual-stat-label">AI対応</div>
+              </div>
+            </div>
+            <div class="visual-card-bar">
+              <div class="bar-label"><span>AI自動処理率</span><span>92%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="92"></div></div>
+            </div>
+            <div class="visual-card-bar">
+              <div class="bar-label"><span>顧客データ保護</span><span>87%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="87"></div></div>
+            </div>
+          </div>
         </div>
-        <div class="service-card fade-in-left" style="transition-delay: 0.2s;">
-          <h3>会社設立支援</h3>
-          <p>法人設立の手続きから設立後の届出まで、ワンストップでお手伝いいたします。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI活用フロー -->
+  <section class="ai-flow" id="flow">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label reveal">How It Works</span>
+        <h2 class="section-title reveal">AI導入の流れ</h2>
+        <p class="section-description reveal">4つのステップで、AIを活用したスマートな会計体制を構築します。</p>
+      </div>
+      <div class="flow-grid">
+        <div class="flow-step reveal" style="transition-delay: 0s;">
+          <div class="flow-step-num">01</div>
+          <div class="flow-step-icon">&#x1F4E5;</div>
+          <h4>データ連携</h4>
+          <p>銀行口座・クラウド会計と自動連携。データ入力の手間をゼロに。</p>
         </div>
-        <div class="service-card fade-in-right" style="transition-delay: 0.3s;">
-          <h3>相続税対策</h3>
-          <p>相続税の試算・節税対策から申告まで、専門知識を活かしてサポートいたします。</p>
+        <div class="flow-step reveal" style="transition-delay: 0.15s;">
+          <div class="flow-step-num">02</div>
+          <div class="flow-step-icon">&#x2699;</div>
+          <h4>AI自動処理</h4>
+          <p>AIが取引を自動分類・仕訳。学習するほど精度が向上します。</p>
+        </div>
+        <div class="flow-step reveal" style="transition-delay: 0.3s;">
+          <div class="flow-step-num">03</div>
+          <div class="flow-step-icon">&#x1F9D1;&#x200D;&#x1F4BC;</div>
+          <h4>専門家レビュー</h4>
+          <p>税理士がAI処理結果を確認・承認。人の目で品質を保証します。</p>
+        </div>
+        <div class="flow-step reveal" style="transition-delay: 0.45s;">
+          <div class="flow-step-num">04</div>
+          <div class="flow-step-icon">&#x1F4CA;</div>
+          <h4>分析・提案</h4>
+          <p>AIが経営データを分析し、最適な税務戦略と改善策を提案します。</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- アクセス -->
-  <section class="access" id="access">
+  <section class="access-section" id="access">
     <div class="container">
-      <h2 class="section-title fade-in">アクセス</h2>
-      <p class="section-subtitle fade-in">Access</p>
-      <div class="access-info fade-in">
-        <table>
-          <tr>
-            <th>所在地</th>
-            <td>〒100-0001 東京都千代田区千代田1-1-1 サンプルビル3F</td>
-          </tr>
-          <tr>
-            <th>電話番号</th>
-            <td>03-1234-5678</td>
-          </tr>
-          <tr>
-            <th>FAX</th>
-            <td>03-1234-5679</td>
-          </tr>
-          <tr>
-            <th>営業時間</th>
-            <td>平日 9:00〜18:00（土日祝休み）</td>
-          </tr>
-          <tr>
-            <th>最寄駅</th>
-            <td>東京メトロ 〇〇駅 徒歩3分</td>
-          </tr>
-        </table>
+      <div class="section-header">
+        <span class="section-label reveal">Access</span>
+        <h2 class="section-title reveal">アクセス</h2>
+      </div>
+      <div class="access-grid">
+        <div class="access-info reveal-left">
+          <table>
+            <tr><th>所在地</th><td>〒100-0001 東京都千代田区千代田1-1-1 サンプルビル3F</td></tr>
+            <tr><th>電話</th><td>03-1234-5678</td></tr>
+            <tr><th>FAX</th><td>03-1234-5679</td></tr>
+            <tr><th>営業時間</th><td>平日 9:00 - 18:00（土日祝休み）</td></tr>
+            <tr><th>最寄駅</th><td>東京メトロ 〇〇駅 徒歩3分</td></tr>
+          </table>
+        </div>
+        <div class="access-cta reveal-right">
+          <h3>まずはお気軽に<br>ご相談ください</h3>
+          <p>AI活用の会計サービスについて、<br>無料でご相談いただけます。</p>
+          <a href="#contact" class="btn-primary">無料相談を予約 &rarr;</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- お問い合わせ -->
-  <section id="contact">
+  <section class="contact-section" id="contact">
     <div class="container">
-      <h2 class="section-title fade-in">お問い合わせ</h2>
-      <p class="section-subtitle fade-in">Contact</p>
-      <form class="contact-form fade-in" action="#" method="post">
-        <div class="form-group">
-          <label for="name">お名前</label>
-          <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+      <div class="contact-grid">
+        <div class="contact-info reveal-left">
+          <span class="section-label">Contact</span>
+          <h2 class="section-title" style="text-align:left;">お問い合わせ</h2>
+          <p>AI × 会計のプロフェッショナルが、あなたのビジネスに最適なプランをご提案いたします。お気軽にお問い合わせください。</p>
+          <div class="contact-channels">
+            <div class="contact-channel">
+              <div class="contact-channel-icon">&#x1F4DE;</div>
+              <div class="contact-channel-text">
+                <strong>電話でのお問い合わせ</strong>
+                <span>03-1234-5678</span>
+              </div>
+            </div>
+            <div class="contact-channel">
+              <div class="contact-channel-icon">&#x2709;</div>
+              <div class="contact-channel-text">
+                <strong>メールでのお問い合わせ</strong>
+                <span>info@kimura-accounting.jp</span>
+              </div>
+            </div>
+            <div class="contact-channel">
+              <div class="contact-channel-icon">&#x1F552;</div>
+              <div class="contact-channel-text">
+                <strong>受付時間</strong>
+                <span>平日 9:00 - 18:00</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="email">メールアドレス</label>
-          <input type="email" id="email" name="email" placeholder="example@mail.com" required>
-        </div>
-        <div class="form-group">
-          <label for="message">お問い合わせ内容</label>
-          <textarea id="message" name="message" placeholder="ご相談内容をご記入ください" required></textarea>
-        </div>
-        <button type="submit" class="btn-submit">送信する</button>
-      </form>
+        <form class="contact-form reveal-right" action="#" method="post">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">お名前</label>
+              <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+            </div>
+            <div class="form-group">
+              <label for="company">会社名</label>
+              <input type="text" id="company" name="company" placeholder="株式会社〇〇">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">メールアドレス</label>
+              <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">電話番号</label>
+              <input type="tel" id="phone" name="phone" placeholder="03-1234-5678">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="interest">ご興味のあるサービス</label>
+            <select id="interest" name="interest">
+              <option value="">選択してください</option>
+              <option value="tax">AI税務顧問</option>
+              <option value="filing">確定申告・決算</option>
+              <option value="startup">会社設立・創業支援</option>
+              <option value="inheritance">相続税・事業承継</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">お問い合わせ内容</label>
+            <textarea id="message" name="message" placeholder="ご相談内容をご記入ください" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">送信する &rarr;</button>
+        </form>
+      </div>
     </div>
   </section>
 
   <!-- フッター -->
   <footer>
-    <p>&copy; 2026 木村会計事務所 All Rights Reserved.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">KIMURA<span>.</span></div>
+        <p>AIテクノロジーと会計の専門知識で、お客様の経営を次のステージへ。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-col">
+          <h4>サービス</h4>
+          <a href="#services">AI税務顧問</a>
+          <a href="#services">確定申告・決算</a>
+          <a href="#services">会社設立支援</a>
+          <a href="#services">相続税対策</a>
+        </div>
+        <div class="footer-links-col">
+          <h4>事務所情報</h4>
+          <a href="#features">私たちの特徴</a>
+          <a href="#flow">AI活用の流れ</a>
+          <a href="#access">アクセス</a>
+          <a href="#contact">お問い合わせ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 木村会計事務所 All Rights Reserved.</p>
+    </div>
   </footer>
 
-  <!-- トップに戻るボタン -->
+  <!-- トップに戻る -->
   <button class="back-to-top" id="backToTop" aria-label="トップに戻る">&#9650;</button>
 
   <script>
-    // スクロールアニメーション（Intersection Observer）
+    // ========== パーティクル背景（ヒーロー） ==========
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: null, y: null };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (mouse.x) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            this.x -= dx * 0.01;
+            this.y -= dy * 0.01;
+          }
+        }
+
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = `rgba(0, 180, 216, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(80, Math.floor(canvas.width * canvas.height / 15000));
+      for (let i = 0; i < count; i++) particles.push(new Particle());
+    }
+    initParticles();
+
+    function connectParticles() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 160) {
+            ctx.strokeStyle = `rgba(0, 180, 216, ${0.08 * (1 - dist / 160)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      connectParticles();
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    document.querySelector('.hero').addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    document.querySelector('.hero').addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    // ========== カーソルグロー ==========
+    const cursorGlow = document.getElementById('cursorGlow');
+    let glowActive = false;
+    document.addEventListener('mousemove', e => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+      if (!glowActive) { cursorGlow.classList.add('active'); glowActive = true; }
+    });
+
+    // ========== スクロールアニメーション ==========
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12 });
 
-    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
       observer.observe(el);
     });
 
-    // ヘッダースクロール時の影
+    // ========== ヘッダー ==========
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
+      header.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // トップに戻るボタン
+    // ========== トップに戻る ==========
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 400) {
-        backToTop.classList.add('show');
-      } else {
-        backToTop.classList.remove('show');
-      }
+      backToTop.classList.toggle('show', window.scrollY > 500);
     });
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // 数字カウントアップアニメーション
-    const countObserver = new IntersectionObserver((entries) => {
+    // ========== カウンター ==========
+    const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'));
-          const duration = 2000;
+          const target = parseInt(el.dataset.target);
+          const duration = 2200;
           const start = performance.now();
-
-          function update(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.floor(eased * target);
-            if (progress < 1) {
-              requestAnimationFrame(update);
-            } else {
-              el.textContent = target;
-            }
+          function tick(now) {
+            const p = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - p, 4);
+            el.textContent = Math.floor(ease * target);
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = target;
           }
-          requestAnimationFrame(update);
-          countObserver.unobserve(el);
+          requestAnimationFrame(tick);
+          counterObserver.unobserve(el);
         }
       });
     }, { threshold: 0.5 });
 
-    document.querySelectorAll('.stat-number').forEach(el => {
-      countObserver.observe(el);
-    });
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    // ========== バーアニメーション ==========
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.visual-card').forEach(el => barObserver.observe(el));
   </script>
 
 </body>
