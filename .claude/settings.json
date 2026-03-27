@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "mfc_ca": {
+      "url": "https://alpha.mcp.developers.biz.moneyforward.com/mcp/ca/v3"
+    }
+  }
+}
